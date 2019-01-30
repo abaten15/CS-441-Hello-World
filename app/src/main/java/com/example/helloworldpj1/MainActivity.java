@@ -1,8 +1,10 @@
 package com.example.helloworldpj1;
 
+import android.animation.Animator;
+import android.annotation.SuppressLint;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.view.ViewGroup;
+import android.view.MotionEvent;
 import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.LinearLayout;
@@ -15,25 +17,111 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
-import java.util.ArrayList;
-import java.util.TimerTask;
-import java.util.Timer;
+
 import java.util.Random;
+
 import android.os.Handler;
 
-public class MainActivity extends AppCompatActivity {
+import java.lang.Math;
 
-    private ArrayList<ImageButton> helloWorldArray;
+public class MainActivity extends AppCompatActivity {
 
     private Random randomValGen;
 
     private int score = 0;
+    private int addToScore = 1;
+    private int level = 2;
 
-    private int justSpawned = 0;
+    private Handler spawnHandler;
+    private int spawnDelay = 900;
+    private int startDelay = 2000;
 
-//    private MainActivity thisObject;
+    @SuppressLint("ClickableViewAccessibility")
+    protected void createNewHelloWorld() {
 
-//    private
+        final ImageButton imagebutton = new ImageButton(MainActivity.this);
+        RelativeLayout relativelayout = (RelativeLayout) findViewById(R.id.relativelayout);
+        LinearLayout.LayoutParams params = new LinearLayout
+                .LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+        params.topMargin = -500;
+        int randomVal = randomValGen.nextInt(800);
+        params.leftMargin = randomVal;
+        params.height = 300;
+        params.width = 300;
+
+        imagebutton.setBackground(null);
+        final ObjectAnimator animation = ObjectAnimator.ofFloat(imagebutton, "translationY", 3000f);
+        animation.setDuration(8000);
+        animation.start();
+        animation.addPauseListener(new Animator.AnimatorPauseListener() {
+            private Animator myAnimation = null;
+
+            public void endAnimation() {
+                if (myAnimation != null) {
+                    myAnimation.end();
+                }
+            }
+
+            @Override
+            public void onAnimationPause(Animator animation) {
+                myAnimation = animation;
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        endAnimation();
+                    }
+                }, 200);
+
+            }
+
+            @Override
+            public void onAnimationResume(Animator animation) {
+
+            }
+        });
+
+        // Add image path for imagebutton from drawable folder.
+        int randomColor = randomValGen.nextInt(4);
+        if (randomColor == 0) {
+            imagebutton.setImageResource(R.drawable.red);
+        } else if (randomColor == 1) {
+            imagebutton.setImageResource(R.drawable.yellow);
+        } else if (randomColor == 2) {
+            imagebutton.setImageResource(R.drawable.green);
+        } else {
+            imagebutton.setImageResource(R.drawable.blue);
+        }
+        imagebutton.setLayoutParams(params);
+
+        imagebutton.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View view, MotionEvent event) {
+                if (event.getAction() != MotionEvent.ACTION_DOWN) {
+                    return false;
+                }
+                score += addToScore;
+                TextView textView = findViewById(R.id.score);
+                textView.setText("" + score);
+                imagebutton.setImageResource(R.drawable.goodbye);
+                animation.pause();
+
+                return true;
+
+            }
+        });
+
+        relativelayout.addView(imagebutton);
+
+    }
+
+    private Runnable runMakeHelloWorld = new Runnable() {
+        @Override
+        public void run() {
+            createNewHelloWorld();
+            spawnHandler.postDelayed(runMakeHelloWorld, spawnDelay);
+        }
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,136 +129,43 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
- //       thisObject = this;
-/*
-        ImageButton newFab = new ImageButton(MainActivity.this);
-
-        RelativeLayout.LayoutParams rel_btn = new RelativeLayout.LayoutParams(
-                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-        rel_btn.leftMargin = 100;
-        rel_btn.topMargin =  200;
-        rel_btn.width = 50;
-        rel_btn.height = 50;
-
-        newFab.setImageResource(R.drawable.red);
-        newFab.setLayoutParams(rel_btn);
-
-        helloWorldArray = new ArrayList<>();
-        helloWorldArray.add(newFab);
-*/
 
         randomValGen = new Random();
 
-        final Handler handler = new Handler();
-        Timer timer = new Timer();
-        TimerTask timerTask = new TimerTask() {
+        spawnHandler = new Handler();
+        spawnHandler.postDelayed(runMakeHelloWorld, startDelay);
+
+        TextView levelView = findViewById(R.id.level);
+        levelView.setText("Power: " + addToScore);
+        TextView costView = findViewById(R.id.cost);
+        costView.setText("Upgrade Cost: " + (Math.pow(level, 3)));
+
+        FloatingActionButton upgrader = findViewById(R.id.upgrader);
+        upgrader.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void run() {
-                handler.post(new Runnable() {
-                    @Override
-                    public void run() {
-
-                        final ImageButton imagebutton = new ImageButton(MainActivity.this);
-                        RelativeLayout relativelayout = (RelativeLayout)findViewById(R.id.relativelayout);
-                        LinearLayout.LayoutParams params = new LinearLayout
-                                .LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-                        params.topMargin = -500;
-                        int randomVal = randomValGen.nextInt(800);
-                        params.leftMargin = randomVal;
-                        params.height = 300;
-                        params.width = 300;
-
-                        imagebutton.setBackground(null);
-                        ObjectAnimator animation = ObjectAnimator.ofFloat(imagebutton, "translationY", 3000f);
-                        animation.setDuration(7000);
-                        animation.start();
-
-                        // Add image path for imagebutton from drawable folder.
-                        int randomColor = randomValGen.nextInt(4);
-                        if (randomColor == 0) {
-                            imagebutton.setImageResource(R.drawable.red);
-                        } else if (randomColor == 1) {
-                            imagebutton.setImageResource(R.drawable.yellow);
-                        } else if (randomColor == 2) {
-                            imagebutton.setImageResource(R.drawable.green);
-                        } else {
-                            imagebutton.setImageResource(R.drawable.blue);
-                        }
-                        imagebutton.setLayoutParams(params);
-
-                        imagebutton.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View view) {
-                                score++;
-                                TextView textView = findViewById(R.id.score);
-                                textView.setText("" + score);
-                                imagebutton.setVisibility(View.INVISIBLE);
-                            }
-                        });
-
-                        relativelayout.addView(imagebutton);
-
-                    }
-                });
-
+            public void onClick(View view) {
+                if (score >= Math.pow(level, 3)) {
+                    score -= Math.pow(level, 3);
+                    addToScore += 5 + level;
+                    level += 1;
+                    TextView textView = findViewById(R.id.score);
+                    textView.setText("" + score);
+                    TextView levelView = findViewById(R.id.level);
+                    levelView.setText("Power: " + addToScore);
+                    TextView costView = findViewById(R.id.cost);
+                    costView.setText("Upgrade Cost: " + (Math.pow(level, 3)));
+                }
             }
-        };
-        timer.scheduleAtFixedRate(timerTask, 2000, 800);
-
-        Timer spawnCheck = new Timer();
-        TimerTask spawnCheckTask = new TimerTask() {
-            @Override
-            public void run() {
-                justSpawned = 0;
-            }
-        };
-
+        });
 
         FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Continue tapping 'Hello Worlds' to increase your score", Snackbar.LENGTH_LONG)
+                Snackbar.make(view, "Continue tapping 'Hello Worlds' to increase your score\nSpend your points on upgrages to increase your power", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
             }
         });
-
-
-        /*
-        helloWorldArray = new ArrayList<>();
-
-        Thread thread = new Thread() {
-
-            @Override
-            public void run() {
-                try {
-                    Thread.sleep(1000);
-                } catch (InterruptedException e) {
-
-                }
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ImageButton newFab = new ImageButton(thisObject);
-
-                        RelativeLayout.LayoutParams rel_btn = new RelativeLayout.LayoutParams(
-                                LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-
-                        rel_btn.leftMargin = 50;
-                        rel_btn.topMargin =  50;
-                        rel_btn.width = 20;
-                        rel_btn.height = 20;
-
-                        newFab.setImageResource(R.drawable.red);
-
-                        helloWorldArray.add(newFab);
-                    }
-                });
-            }
-
-        };
-        */
 
     }
 
