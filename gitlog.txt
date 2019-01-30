@@ -1,0 +1,110 @@
+commit a0a4f570e1512a8874b0029416a7e9f95c2f34dd
+Author: Nick Abate <abaten15@Nicks-MacBook-Pro-4.local>
+Date:   Wed Jan 30 09:49:00 2019 -0500
+
+    added README
+
+ README.md | 15 +++++++++++++--
+ 1 file changed, 13 insertions(+), 2 deletions(-)
+
+commit 5ad99591d41f2f1b33fdf0464dd565c057fe93d2
+Author: Nick Abate <abaten15@nicks-mbp-4.home>
+Date:   Tue Jan 29 20:19:13 2019 -0500
+
+    Implemented upgrade system. Improved UI. Added Screenshots for submission.
+
+ Prj1 Screenshot 1.png                              | Bin 0 -> 222893 bytes
+ Prj1 Screenshot 2.png                              | Bin 0 -> 188428 bytes
+ Prj1 Screenshot 3.png                              | Bin 0 -> 175013 bytes
+ app/build.gradle                                   |   2 +-
+ .../com/example/helloworldpj1/MainActivity.java    | 243 ++++++++++-----------
+ app/src/main/res/drawable-v24/goodbye.png          | Bin 0 -> 4224 bytes
+ app/src/main/res/drawable-v24/plus.png             | Bin 0 -> 349 bytes
+ app/src/main/res/drawable-v24/questionmark.png     | Bin 0 -> 484 bytes
+ app/src/main/res/layout/activity_main.xml          |  36 ++-
+ app/src/main/res/layout/content_main.xml           |   1 +
+ 10 files changed, 156 insertions(+), 126 deletions(-)
+
+commit eaf722403e02b84438512f8428d7f2ddf7332744
+Author: Nick Abate <abaten15@nicks-mbp-4.home>
+Date:   Mon Jan 28 13:39:15 2019 -0500
+
+    More hello world images added. Implemented random spawns every second and score tracker.
+
+ .../com/example/helloworldpj1/MainActivity.java    | 121 ++++++++++++---------
+ app/src/main/res/drawable-v24/blue.png             | Bin 0 -> 4297 bytes
+ app/src/main/res/drawable-v24/green.png            | Bin 0 -> 4167 bytes
+ app/src/main/res/drawable-v24/yellow.png           | Bin 0 -> 4293 bytes
+ app/src/main/res/layout/activity_main.xml          |  30 +++--
+ app/src/main/res/layout/content_main.xml           |  11 --
+ 6 files changed, 93 insertions(+), 69 deletions(-)
+
+commit 565731503fc4bc9708933750c4e8be1dae9f643a
+Author: Nick Abate <abaten15@nicks-mbp-4.home>
+Date:   Mon Jan 28 01:59:23 2019 -0500
+
+    Added Hello World buttons and motion animations
+
+ .../com/example/helloworldpj1/MainActivity.java    | 125 ++++++++++++++++++++-
+ app/src/main/res/drawable-v24/red.png              | Bin 0 -> 3128 bytes
+ app/src/main/res/layout/activity_main.xml          |  14 ++-
+ app/src/main/res/layout/content_main.xml           |   7 +-
+ 4 files changed, 140 insertions(+), 6 deletions(-)
+
+commit 005b3d1633b6cfeaa3f6da33167a1693cdb9c9c5
+Author: Nick Abate <abaten15@Nicks-MacBook-Pro-4.local>
+Date:   Fri Jan 25 10:06:53 2019 -0500
+
+    Initialized project and added hello/goodbye world text
+
+ .gitignore                                         |  13 ++
+ .idea/codeStyles/Project.xml                       |  29 ++++
+ .idea/gradle.xml                                   |  15 ++
+ .idea/misc.xml                                     |   9 ++
+ .idea/runConfigurations.xml                        |  12 ++
+ .idea/vcs.xml                                      |   6 +
+ app/.gitignore                                     |   1 +
+ app/build.gradle                                   |  29 ++++
+ app/proguard-rules.pro                             |  21 +++
+ .../helloworldpj1/ExampleInstrumentedTest.java     |  26 ++++
+ app/src/main/AndroidManifest.xml                   |  24 +++
+ .../com/example/helloworldpj1/MainActivity.java    |  56 +++++++
+ .../res/drawable-v24/ic_launcher_foreground.xml    |  34 ++++
+ .../main/res/drawable/ic_launcher_background.xml   | 170 ++++++++++++++++++++
+ app/src/main/res/layout/activity_main.xml          |  33 ++++
+ app/src/main/res/layout/content_main.xml           |  21 +++
+ app/src/main/res/menu/menu_main.xml                |  10 ++
+ app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml |   5 +
+ .../res/mipmap-anydpi-v26/ic_launcher_round.xml    |   5 +
+ app/src/main/res/mipmap-hdpi/ic_launcher.png       | Bin 0 -> 2963 bytes
+ app/src/main/res/mipmap-hdpi/ic_launcher_round.png | Bin 0 -> 4905 bytes
+ app/src/main/res/mipmap-mdpi/ic_launcher.png       | Bin 0 -> 2060 bytes
+ app/src/main/res/mipmap-mdpi/ic_launcher_round.png | Bin 0 -> 2783 bytes
+ app/src/main/res/mipmap-xhdpi/ic_launcher.png      | Bin 0 -> 4490 bytes
+ .../main/res/mipmap-xhdpi/ic_launcher_round.png    | Bin 0 -> 6895 bytes
+ app/src/main/res/mipmap-xxhdpi/ic_launcher.png     | Bin 0 -> 6387 bytes
+ .../main/res/mipmap-xxhdpi/ic_launcher_round.png   | Bin 0 -> 10413 bytes
+ app/src/main/res/mipmap-xxxhdpi/ic_launcher.png    | Bin 0 -> 9128 bytes
+ .../main/res/mipmap-xxxhdpi/ic_launcher_round.png  | Bin 0 -> 15132 bytes
+ app/src/main/res/values/colors.xml                 |   6 +
+ app/src/main/res/values/dimens.xml                 |   3 +
+ app/src/main/res/values/strings.xml                |   4 +
+ app/src/main/res/values/styles.xml                 |  20 +++
+ .../com/example/helloworldpj1/ExampleUnitTest.java |  17 ++
+ build.gradle                                       |  27 ++++
+ gradle.properties                                  |  15 ++
+ gradle/wrapper/gradle-wrapper.jar                  | Bin 0 -> 54329 bytes
+ gradle/wrapper/gradle-wrapper.properties           |   6 +
+ gradlew                                            | 172 +++++++++++++++++++++
+ gradlew.bat                                        |  84 ++++++++++
+ settings.gradle                                    |   1 +
+ 41 files changed, 874 insertions(+)
+
+commit 4a20dc93d19ee53d7c7889e715551cfdbd3cde2d
+Author: Nicholas Abate <abaten15@gmail.com>
+Date:   Fri Jan 25 09:47:04 2019 -0500
+
+    Initial commit
+
+ README.md | 2 ++
+ 1 file changed, 2 insertions(+)
